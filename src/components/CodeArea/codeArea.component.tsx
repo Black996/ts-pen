@@ -8,16 +8,20 @@ interface IProps {
 
 const CodeArea: FC<IProps> = ({ input, onClick, onChange }) => {
   return (
-    <div style={{ display: "flex" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: "3rem",
+      }}
+    >
       <textarea
         value={input}
         onChange={onChange}
         style={{ height: "200px", width: "300px" }}
       />
-      <button
-        onClick={onClick}
-        style={{ height: "50px", alignSelf: "center", marginLeft: "10px" }}
-      >
+      <button onClick={onClick} style={{ height: "50px", marginLeft: "10px" }}>
         Transpile
       </button>
     </div>
