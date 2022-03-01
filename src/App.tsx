@@ -25,16 +25,12 @@ const App = () => {
       entryPoints: ["index.js"],
       bundle: true,
       write: false,
-        plugins: [
-            unpkgPathPlugin(),
-            fetchPkgPlugin(input)
-                 ],
-        define:{
-            'process.env.NODE_ENV': '"production"',
-            global:'window'
-        }
+      plugins: [unpkgPathPlugin(), fetchPkgPlugin(input)],
+      define: {
+        "process.env.NODE_ENV": '"production"',
+        global: "window",
+      },
     });
-    console.log(res);
     setCode(res.outputFiles[0].text);
   }
 
@@ -42,11 +38,30 @@ const App = () => {
     setInput(evt.target.value);
   }
 
+  const html = `
+    <script>
+      ${code}
+    </script> 
+  `;
+
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
       <h1>Code Transpiler</h1>
       <CodeArea input={input} onClick={onClick} onChange={onChange} />
-      <pre>{code}</pre>
+      <div>
+        <iframe
+          srcDoc={html}
+          sandbox="allow-scripts"
+          style={{ width: "500px" }}
+        />
+      </div>
     </div>
   );
 };
