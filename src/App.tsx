@@ -5,8 +5,8 @@ import CodeArea from "./components/CodeArea";
 
 const App = () => {
   const [input, setInput] = useState("");
-  const [code, setCode] = useState("");
   const ref = useRef<any>();
+  const iframe = useRef<any>();
 
   useEffect(() => {
     (async function () {
@@ -21,6 +21,9 @@ const App = () => {
     if (!ref.current) {
       return;
     }
+
+    iframe.current.srcdoc = html;
+
     const res = await ref.current.build({
       entryPoints: ["index.js"],
       bundle: true,
@@ -31,7 +34,8 @@ const App = () => {
         global: "window",
       },
     });
-    setCode(res.outputFiles[0].text);
+    // setCode(res.outputFiles[0].text);
+    iframe.current.contentWindow.postMessage(res.outputFiles[0].text, "*");
   }
 
   function onChange(evt: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -39,9 +43,23 @@ const App = () => {
   }
 
   const html = `
-    <script>
-      ${code}
-    </script> 
+  <html>
+    <head></head>
+    <body>
+      <div id="root"></div>
+      <script>
+        window.addEventListener('message', (evt)=>{
+          try{
+            eval(evt.data)
+          }catch(error){
+            const root = document.getElementById("root");
+            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + error + '</div>';
+            console.error(error);
+          }
+        },false) 
+      </script> 
+    </body>
+  </html>
   `;
 
   return (
@@ -55,13 +73,13 @@ const App = () => {
     >
       <h1>Code Transpiler</h1>
       <CodeArea input={input} onClick={onClick} onChange={onChange} />
-      <div>
-        <iframe
-          srcDoc={html}
-          sandbox="allow-scripts"
-          style={{ width: "500px" }}
-        />
-      </div>
+      <iframe
+        title="Playground"
+        ref={iframe}
+        srcDoc={html}
+        sandbox="allow-scripts"
+        style={{ width: "500px" }}
+      />
     </div>
   );
 };
