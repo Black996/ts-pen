@@ -3,18 +3,27 @@ import MonacoEditor from "@monaco-editor/react";
 
 interface IProps {
   input: string;
-  onClick: (evt: React.MouseEvent<HTMLButtonElement>) => void;
-  onChange: (evt: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  initialValue: string;
+  onClick(evt: React.MouseEvent<HTMLButtonElement>): void;
+  onChange(val: string): void;
 }
 
-const CodeArea: FC<IProps> = ({ input, onClick, onChange }) => {
+const CodeArea: FC<IProps> = ({ initialValue, input, onClick, onChange }) => {
+  function onEditorDidMount(getValue: () => string, monacoEditor: any) {
+    monacoEditor.onDidChangeModelContent(() => {
+      onChange(getValue());
+    });
+  }
+
   return (
     <>
       <MonacoEditor
         language="javascript"
+        value={initialValue}
         width="50%"
         height="200px"
         theme="dark"
+        editorDidMount={onEditorDidMount}
         options={{
           wordWrap: "on",
           minimap: { enabled: false },

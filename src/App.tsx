@@ -38,8 +38,8 @@ const App = () => {
     iframe.current.contentWindow.postMessage(res.outputFiles[0].text, "*");
   }
 
-  function onChange(evt: React.ChangeEvent<HTMLTextAreaElement>) {
-    setInput(evt.target.value);
+  function onChange(value: string) {
+    setInput(value);
   }
 
   const html = `
@@ -72,7 +72,12 @@ const App = () => {
       }}
     >
       <h1>Code Transpiler</h1>
-      <CodeArea input={input} onClick={onClick} onChange={onChange} />
+      <CodeArea
+        initialValue='const start = "hello world!";'
+        input={input}
+        onClick={onClick}
+        onChange={onChange}
+      />
       <iframe
         title="Playground"
         ref={iframe}
