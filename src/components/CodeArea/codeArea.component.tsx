@@ -17,6 +17,12 @@ const CodeArea: FC<IProps> = ({ input, onClick, onChange }) => {
         theme="dark"
         options={{
           wordWrap: "on",
+          minimap: { enabled: false },
+          folding: false,
+          lineNumbersMinChars: 3,
+          fontSize: 18,
+          scrollBeyondLastLine: false,
+          automaticLayout: true,
         }}
       />
       <button onClick={onClick} style={{ height: "50px", margin: "10px" }}>
