@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import MonacoEditor from "@monaco-editor/react";
 
 interface IProps {
   input: string;
@@ -8,23 +9,20 @@ interface IProps {
 
 const CodeArea: FC<IProps> = ({ input, onClick, onChange }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: "3rem",
-      }}
-    >
-      <textarea
-        value={input}
-        onChange={onChange}
-        style={{ height: "200px", width: "300px" }}
+    <>
+      <MonacoEditor
+        language="javascript"
+        width="50%"
+        height="200px"
+        theme="dark"
+        options={{
+          wordWrap: "on",
+        }}
       />
-      <button onClick={onClick} style={{ height: "50px", marginLeft: "10px" }}>
+      <button onClick={onClick} style={{ height: "50px", margin: "10px" }}>
         Transpile
       </button>
-    </div>
+    </>
   );
 };
 
