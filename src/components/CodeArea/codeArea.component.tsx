@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import MonacoEditor from "@monaco-editor/react";
+import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 
 interface IProps {
   input: string;
@@ -9,11 +9,11 @@ interface IProps {
 }
 
 const CodeArea: FC<IProps> = ({ initialValue, input, onClick, onChange }) => {
-  function onEditorDidMount(getValue: () => string, monacoEditor: any) {
+  const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
     monacoEditor.onDidChangeModelContent(() => {
       onChange(getValue());
     });
-  }
+  };
 
   return (
     <>
