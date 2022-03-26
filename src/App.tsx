@@ -63,14 +63,7 @@ const App = () => {
   `;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
+    <div>
       <h1>Code Transpiler</h1>
       <CodeArea
         initialValue='const start = "hello world!";'
@@ -83,7 +76,6 @@ const App = () => {
         ref={iframe}
         srcDoc={html}
         sandbox="allow-scripts"
-        style={{ width: "500px" }}
       />
     </div>
   );
