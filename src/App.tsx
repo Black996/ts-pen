@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin, fetchPkgPlugin } from "./plugins";
 import CodeArea from "./components/CodeArea";
+import Preview from "./components/Preview";
 
 const App = () => {
   const [input, setInput] = useState("");
+  const [code, setCode] = useState("");
   const ref = useRef<any>();
-  const iframe = useRef<any>();
 
   useEffect(() => {
     (async function () {
@@ -22,8 +23,6 @@ const App = () => {
       return;
     }
 
-    iframe.current.srcdoc = html;
-
     const res = await ref.current.build({
       entryPoints: ["index.js"],
       bundle: true,
@@ -34,33 +33,12 @@ const App = () => {
         global: "window",
       },
     });
-    // setCode(res.outputFiles[0].text);
-    iframe.current.contentWindow.postMessage(res.outputFiles[0].text, "*");
+    setCode(res.outputFiles[0].text);
   }
 
   function onChange(value: string) {
     setInput(value);
   }
-
-  const html = `
-  <html>
-    <head></head>
-    <body>
-      <div id="root"></div>
-      <script>
-        window.addEventListener('message', (evt)=>{
-          try{
-            eval(evt.data)
-          }catch(error){
-            const root = document.getElementById("root");
-            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + error + '</div>';
-            console.error(error);
-          }
-        },false) 
-      </script> 
-    </body>
-  </html>
-  `;
 
   return (
     <div>
@@ -71,12 +49,7 @@ const App = () => {
         onClick={onClick}
         onChange={onChange}
       />
-      <iframe
-        title="Playground"
-        ref={iframe}
-        srcDoc={html}
-        sandbox="allow-scripts"
-      />
+      <Preview code={code} />
     </div>
   );
 };
