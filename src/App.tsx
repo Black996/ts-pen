@@ -1,39 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import * as esbuild from "esbuild-wasm";
-import { unpkgPathPlugin, fetchPkgPlugin } from "./plugins";
+import React from "react";
+import esBuildBundle from "./bundler";
 import CodeArea from "./components/CodeArea";
 import Preview from "./components/Preview";
 
 const App = () => {
-  const [input, setInput] = useState("");
-  const [code, setCode] = useState("");
-  const ref = useRef<any>();
-
-  useEffect(() => {
-    (async function () {
-      ref.current = await esbuild.startService({
-        worker: true,
-        wasmURL: "https://www.unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm",
-      });
-    })();
-  }, []);
+  const [input, setInput] = React.useState("");
+  const [code, setCode] = React.useState("");
 
   async function onClick() {
-    if (!ref.current) {
-      return;
-    }
-
-    const res = await ref.current.build({
-      entryPoints: ["index.js"],
-      bundle: true,
-      write: false,
-      plugins: [unpkgPathPlugin(), fetchPkgPlugin(input)],
-      define: {
-        "process.env.NODE_ENV": '"production"',
-        global: "window",
-      },
-    });
-    setCode(res.outputFiles[0].text);
+    const outputCode = await esBuildBundle(input);
+    setCode(outputCode);
+    if (code) return code;
   }
 
   function onChange(value: string) {
