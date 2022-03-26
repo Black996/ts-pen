@@ -1,5 +1,7 @@
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
+import prettier from "prettier";
+import parser from "prettier/parser-babel";
 
 interface IProps {
   input: string;
@@ -9,14 +11,35 @@ interface IProps {
 }
 
 const CodeArea: FC<IProps> = ({ initialValue, input, onClick, onChange }) => {
+  const editorRef = useRef<any>();
+
   const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
+    editorRef.current = monacoEditor;
     monacoEditor.onDidChangeModelContent(() => {
       onChange(getValue());
     });
   };
 
+  const onFormatClick = () => {
+    const unformattedCode = editorRef.current.getModel().getValue();
+
+    const formatted = prettier.format(unformattedCode, {
+      parser: "babel",
+      plugins: [parser],
+      semi: true,
+    });
+
+    editorRef.current.setValue(formatted);
+  };
+
   return (
     <>
+      <button
+        className="button button-format is-primary is-small"
+        onClick={onFormatClick}
+      >
+        Format
+      </button>
       <MonacoEditor
         language="javascript"
         value={initialValue}
