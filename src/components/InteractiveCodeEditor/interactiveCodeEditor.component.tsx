@@ -1,11 +1,11 @@
 import React from "react";
-import "./codeEditor.styles.css";
+import "./interactiveCodeEditor.styles.css";
 import esBuildBundle from "../../bundler";
-import CodeArea from "../../components/CodeArea";
-import Preview from "../../components/Preview";
+import CodeArea from "../CodeArea";
+import Preview from "../Preview";
 import Resizable from "../Resizable";
 
-const CodeEditor: React.FC = () => {
+const InteractiveCodeEditor: React.FC = () => {
   const [input, setInput] = React.useState("");
   const [code, setCode] = React.useState("");
 
@@ -34,4 +34,4 @@ const CodeEditor: React.FC = () => {
   );
 };
 
-export default CodeEditor;
+export default InteractiveCodeEditor;
