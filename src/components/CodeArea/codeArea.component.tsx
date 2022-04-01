@@ -46,8 +46,8 @@ const CodeArea: FC<IProps> = ({ initialValue, input, onClick, onChange }) => {
       <MonacoEditor
         language="javascript"
         value={initialValue}
-        height="200px"
         theme="dark"
+        height="100%"
         editorDidMount={onEditorDidMount}
         options={{
           wordWrap: "on",
@@ -59,9 +59,6 @@ const CodeArea: FC<IProps> = ({ initialValue, input, onClick, onChange }) => {
           automaticLayout: true,
         }}
       />
-      <button onClick={onClick} style={{ height: "50px", margin: "10px" }}>
-        Transpile
-      </button>
     </div>
   );
 };
