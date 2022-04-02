@@ -12,6 +12,7 @@ const Resizable: React.FC<IResizable> = ({ axis, children }) => {
 
   if (axis === "x") {
     resizableProps = {
+      className: "resize-horizontal",
       width: window.innerWidth * 0.75,
       height: Infinity,
       axis,
