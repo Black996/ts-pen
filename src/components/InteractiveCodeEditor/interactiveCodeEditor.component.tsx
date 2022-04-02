@@ -19,15 +19,16 @@ const InteractiveCodeEditor: React.FC = () => {
   }
 
   return (
-    <Resizable>
+    <Resizable axis="y">
       <div className="main">
-        {/* <h1>Code Transpiler</h1> */}
-        <CodeArea
-          initialValue='const start = "hello world!";'
-          input={input}
-          onClick={onClick}
-          onChange={onChange}
-        />
+        <Resizable axis="x">
+          <CodeArea
+            initialValue='const start = "hello world!";'
+            input={input}
+            onClick={onClick}
+            onChange={onChange}
+          />
+        </Resizable>
         <Preview code={code} />
       </div>
     </Resizable>

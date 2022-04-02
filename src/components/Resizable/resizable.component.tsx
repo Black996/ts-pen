@@ -7,23 +7,30 @@ interface IResizable extends Omit<ResizableBoxProps, "height" | "width"> {
   width?: number;
 }
 
-const Resizable: React.FC<IResizable> = ({
-  height = 300,
-  width = Infinity,
-  axis,
-  resizeHandles = ["s"],
-  children,
-}) => {
-  return (
-    <ResizableBox
-      width={width}
-      height={height}
-      axis={axis}
-      resizeHandles={resizeHandles}
-    >
-      {children}
-    </ResizableBox>
-  );
+const Resizable: React.FC<IResizable> = ({ axis, children }) => {
+  let resizableProps: ResizableBoxProps;
+
+  if (axis === "x") {
+    resizableProps = {
+      width: window.innerWidth * 0.75,
+      height: Infinity,
+      axis,
+      resizeHandles: ["e"],
+      maxConstraints: [window.innerWidth * 0.75, Infinity],
+      minConstraints: [window.innerWidth * 0.2, Infinity],
+    };
+  } else {
+    resizableProps = {
+      width: Infinity,
+      height: 300,
+      axis,
+      resizeHandles: ["s"],
+      maxConstraints: [Infinity, window.innerHeight * 0.9],
+      minConstraints: [Infinity, 50],
+    };
+  }
+
+  return <ResizableBox {...resizableProps}>{children}</ResizableBox>;
 };
 
 export default Resizable;
