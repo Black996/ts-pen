@@ -10,7 +10,7 @@ const Preview: React.FC<IProps> = ({ code }) => {
 
   React.useEffect(() => {
     iframe.current.srcdoc = html;
-    iframe.current.contentWindow.postMessage(code, "*");
+    setTimeout(() => iframe.current.contentWindow.postMessage(code, "*"), 20);
   }, [code]);
 
   const html = `
