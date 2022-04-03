@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import { FC, useRef } from "react";
 import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 import prettier from "prettier";
 import parser from "prettier/parser-babel";
@@ -7,11 +7,10 @@ import "./codeArea.styles.css";
 interface IProps {
   input: string;
   initialValue: string;
-  onClick(evt: React.MouseEvent<HTMLButtonElement>): void;
   onChange(val: string): void;
 }
 
-const CodeArea: FC<IProps> = ({ initialValue, input, onClick, onChange }) => {
+const CodeArea: FC<IProps> = ({ initialValue, onChange }) => {
   const editorRef = useRef<any>();
 
   const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
