@@ -1,10 +1,12 @@
 import React from "react";
-import CodeEditor from "./components/InteractiveCodeEditor";
+import CodeArea from "./components/CodeArea";
+import TextEditor from "./components/TextEditor";
 
 const App: React.FC = () => {
   return (
     <>
-      <CodeEditor />
+      {/* <CodeArea /> */}
+      <TextEditor />
     </>
   );
 };
