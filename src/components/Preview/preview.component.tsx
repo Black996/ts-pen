@@ -3,9 +3,10 @@ import "./preview.styles.css";
 
 interface IProps {
   code: string;
+  error: string;
 }
 
-const Preview: React.FC<IProps> = ({ code }) => {
+const Preview: React.FC<IProps> = ({ code, error }) => {
   const iframe = React.useRef<any>();
 
   React.useEffect(() => {
@@ -19,13 +20,20 @@ const Preview: React.FC<IProps> = ({ code }) => {
     <body>
       <div id="root"></div>
       <script>
+      function handleError(error){
+            const root = document.getElementById("root");
+            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + error + '</div>';
+            console.error(error);
+      }
+        window.addEventListener('error', (evt)=>{
+          evt.preventDefault();
+            handleError(evt.error);
+        })
         window.addEventListener('message', (evt)=>{
           try{
             eval(evt.data)
           }catch(error){
-            const root = document.getElementById("root");
-            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + error + '</div>';
-            console.error(error);
+            handleError(error);
           }
         },false) 
       </script> 
@@ -42,6 +50,7 @@ const Preview: React.FC<IProps> = ({ code }) => {
         srcDoc={html}
         sandbox="allow-scripts"
       />
+      {error && <div className="preview-error">{error}</div>}
     </div>
   );
 };

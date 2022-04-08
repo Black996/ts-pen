@@ -8,11 +8,15 @@ import Resizable from "../Resizable";
 const InteractiveCodeEditor: React.FC = () => {
   const [input, setInput] = React.useState("");
   const [code, setCode] = React.useState("");
+  const [error, setError] = React.useState("");
 
   React.useEffect(() => {
     let timerId = setTimeout(async () => {
       const outputCode = await esBuildBundle(input);
-      setCode(outputCode);
+      if (outputCode) {
+        setCode(outputCode.code);
+        setError(outputCode.error);
+      }
     }, 750);
 
     return () => clearTimeout(timerId);
@@ -32,7 +36,7 @@ const InteractiveCodeEditor: React.FC = () => {
             onChange={onChange}
           />
         </Resizable>
-        <Preview code={code} />
+        <Preview code={code} error={error} />
       </div>
     </Resizable>
   );
