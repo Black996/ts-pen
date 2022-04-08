@@ -1,7 +1,7 @@
 import React from "react";
-import "./interactiveCodeEditor.styles.css";
+import "./CodeArea.styles.css";
 import esBuildBundle from "../../bundler";
-import CodeArea from "../CodeArea";
+import CodeEditor from "../CodeEditor";
 import Preview from "../Preview";
 import Resizable from "../Resizable";
 
@@ -30,7 +30,7 @@ const InteractiveCodeEditor: React.FC = () => {
     <Resizable axis="y">
       <div className="main">
         <Resizable axis="x">
-          <CodeArea
+          <CodeEditor
             initialValue='const start = "hello world!";'
             input={input}
             onChange={onChange}

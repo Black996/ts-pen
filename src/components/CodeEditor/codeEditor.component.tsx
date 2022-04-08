@@ -2,7 +2,7 @@ import { FC, useRef } from "react";
 import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 import prettier from "prettier";
 import parser from "prettier/parser-babel";
-import "./codeArea.styles.css";
+import "./codeEditor.styles.css";
 
 interface IProps {
   input: string;

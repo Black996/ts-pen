@@ -1,1 +1,1 @@
-export {default} from "./codeArea.component"
+export { default } from "./CodeArea.component";
