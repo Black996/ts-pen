@@ -10,19 +10,29 @@ async function esBuildBundle(rawCode: string) {
       wasmURL: "https://www.unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm",
     });
   }
+  try {
+    const output = await bundler.build({
+      entryPoints: ["index.js"],
+      bundle: true,
+      write: false,
+      plugins: [unpkgPathPlugin(), fetchPkgPlugin(rawCode)],
+      define: {
+        "process.env.NODE_ENV": '"production"',
+        global: "window",
+      },
+    });
 
-  const output = await bundler.build({
-    entryPoints: ["index.js"],
-    bundle: true,
-    write: false,
-    plugins: [unpkgPathPlugin(), fetchPkgPlugin(rawCode)],
-    define: {
-      "process.env.NODE_ENV": '"production"',
-      global: "window",
-    },
-  });
-
-  return output.outputFiles[0].text;
+    return {
+      code: output.outputFiles[0].text,
+      error: "",
+    };
+  } catch (error) {
+    if (error instanceof Error)
+      return {
+        code: "",
+        error: error.message,
+      };
+  }
 }
 
 export default esBuildBundle;
