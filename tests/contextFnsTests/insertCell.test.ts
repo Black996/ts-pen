@@ -1,4 +1,4 @@
-import { ITInsertCellParams} from "../../src/context/cellsContextTypes";
+import { ITInsertCellParams} from "../../src/context/CellsContext/cellsContextTypes";
 import { initializeState } from "./index.test";
 
 function insertCell({cell,state}:ITInsertCellParams){

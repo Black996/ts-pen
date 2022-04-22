@@ -1,5 +1,5 @@
 import {beforeEach} from '@jest/globals';
-import { CellsContextState, Cells} from "../../src/context/cellsContextTypes";
+import { CellsContextState, Cells} from "../../src/context/CellsContext/cellsContextTypes";
 
 export function initializeState(){
     let state:CellsContextState;

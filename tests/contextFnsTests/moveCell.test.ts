@@ -1,4 +1,4 @@
-import { ITMoveCellParams} from "../../src/context/cellsContextTypes";
+import { ITMoveCellParams} from "../../src/context/CellsContext/cellsContextTypes";
 import { initializeState } from "./index.test";
 import {swap} from "../../src/helpers";
 

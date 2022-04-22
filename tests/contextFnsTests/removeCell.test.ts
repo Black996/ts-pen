@@ -1,4 +1,4 @@
-import { ITRemoveCellParams} from "../../src/context/cellsContextTypes";
+import { ITRemoveCellParams} from "../../src/context/CellsContext/cellsContextTypes";
 import { initializeState } from "./index.test";
 
 

@@ -1,4 +1,4 @@
-import { ITUpdateCellParams} from "../../src/context/cellsContextTypes";
+import { ITUpdateCellParams} from "../../src/context/CellsContext/cellsContextTypes";
 import { initializeState } from "./index.test";
 
 function updateCell({id , content, state}:ITUpdateCellParams){

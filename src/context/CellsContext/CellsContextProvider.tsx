@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 
 import CellsContext from "./CellsContext";
-import { swap } from "../helpers";
+import { swap } from "../../helpers";
 
 import { ICell, ICellsContextManager,Direction} from "./cellsContextTypes";
 
