@@ -1,6 +1,5 @@
 import React from "react";
 import { ResizableBox, ResizableBoxProps } from "react-resizable";
-import { debounce } from "../../helpers";
 import "./resizable.styles.css";
 
 interface IResizable extends Omit<ResizableBoxProps, "height" | "width"> {
