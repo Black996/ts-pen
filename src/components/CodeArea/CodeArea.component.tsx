@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./CodeArea.styles.css";
 import esBuildBundle from "../../bundler";
 import CodeEditor from "../CodeEditor";
 import Preview from "../Preview";
 import Resizable from "../Resizable";
+import { ICell } from "../../context/CellsContext/cellsContextTypes";
+import CellsContext from "../../context/CellsContext/CellsContext";
 
-const InteractiveCodeEditor: React.FC = () => {
-  const [input, setInput] = React.useState("");
+interface IProps {
+  cell: ICell;
+}
+
+const InteractiveCodeEditor: React.FC<IProps> = ({cell}) => {
+  const {cellsContextManager} = useContext(CellsContext);
   const [code, setCode] = React.useState("");
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
     let timerId = setTimeout(async () => {
-      const outputCode = await esBuildBundle(input);
+      const outputCode = await esBuildBundle(cell.content);
       if (outputCode) {
         setCode(outputCode.code);
         setError(outputCode.error);
@@ -20,10 +26,10 @@ const InteractiveCodeEditor: React.FC = () => {
     }, 750);
 
     return () => clearTimeout(timerId);
-  }, [input]);
+  }, [cell.content]);
 
   function onChange(value: string) {
-    setInput(value);
+    cellsContextManager.updateCell(cell.id,value);
   }
 
   return (
@@ -31,8 +37,8 @@ const InteractiveCodeEditor: React.FC = () => {
       <div className="main">
         <Resizable axis="x">
           <CodeEditor
-            initialValue='const start = "hello world!";'
-            input={input}
+            initialValue={cell.content}
+            input={cell.content}
             onChange={onChange}
           />
         </Resizable>
