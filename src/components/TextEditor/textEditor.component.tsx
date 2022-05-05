@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import MDEditor, { MDEditorProps } from "@uiw/react-md-editor";
 import "./textEditor.styles.css";
+import { ICell } from "../../context/CellsContext/cellsContextTypes";
+import CellsContext from "../../context/CellsContext/CellsContext";
 
-const TextEditor: React.FC = () => {
+interface IProps {
+  cell: ICell;
+}
+
+const TextEditor: React.FC<IProps> = ({cell}) => {
+  const {cellsContextManager} = useContext(CellsContext);
   const textEditorDivRef = React.useRef<HTMLDivElement | null>(null);
 
-  const [value, setValue] = React.useState("# Header");
   const [editIsActive, setEditIsActive] = React.useState(false);
 
   React.useEffect(()=>{
@@ -24,7 +30,10 @@ const TextEditor: React.FC = () => {
   
   if(editIsActive) return (
    <div className="text-editor" ref={textEditorDivRef}>
-    <MDEditor onChange={(val) => setValue(val || "")} value={value} />
+    <MDEditor 
+      onChange={(val) => cellsContextManager.updateCell(cell.id,val || "")} 
+      value={cell.content} 
+    />
    </div>
   );
   
@@ -34,7 +43,7 @@ const TextEditor: React.FC = () => {
       onClick={() => setEditIsActive(true)}
     >
       <div className="card-content">
-        <MDEditor.Markdown source={value} />
+        <MDEditor.Markdown source={cell.content  || "Enter your text here"} />
       </div>
 
     </div>

@@ -12,7 +12,7 @@ const CellsListItem: React.FC<IProps> = ({cell}) => {
     if(cell.type == "code"){
         child = <CodeArea cell={cell}/>;
     }else {
-        child = <TextEditor/>
+        child = <TextEditor cell={cell}/>
     }
     return child;
 }

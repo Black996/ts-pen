@@ -12,7 +12,11 @@ const CellList: React.FC = () => {
 
    return(
       <div>
-         <h1 onClick={()=>cellsContextManager.insertCell({content:"console.log(\"Generated a cell\")", type:"code"})}>Generate A Cell</h1>
+         <h1 
+            onClick={()=>cellsContextManager.insertCell({content:"console.log(\"Generated a cell\")", type:"code"})}>
+               Generate A Code Cell
+         </h1>
+         <h1 onClick={()=>cellsContextManager.insertCell({content:"", type:"markup"})}>Generate A Text Cell</h1>
          {cells.map((cell, idx)=><CellListItem key={idx} cell={cell}/>)}
       </div>
    ) 
