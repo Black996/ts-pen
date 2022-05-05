@@ -56,14 +56,12 @@ const CellsContextProvider: React.FC = ({children}) => {
         }
     }
 
-    function cellsContextManager():ICellsContextManager{
-        return {
+    const cellsContextManager:ICellsContextManager = {
             moveCell
             , insertCell
             , updateCell
             , removeCell
         }
-    }
 
 
     return (

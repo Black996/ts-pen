@@ -6,15 +6,13 @@ const initialVals: ICellsContext = {
     // error:false,
     cells: {},
     order:[],
-    cellsContextManager:()=>{
-        return {
+    cellsContextManager:{
             moveCell:(id: string, direction:Direction)=>undefined,
             insertCell:(cell:IInsertCell)=>undefined,
             updateCell:(id: string, content:string)=>undefined,
             removeCell:(id:string)=>undefined
         }
-    },
-}
+    }
 
 
 const CellsContext = createContext(initialVals);

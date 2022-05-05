@@ -16,14 +16,12 @@ export interface ICellsContextManager {
     moveCell:(id:string, direction:Direction)=>void;
 }
 
-export type CellsContextManagerFn = ()=> ICellsContextManager;
-
 export interface ICellsContext {
     // loading: boolean;
     // error:boolean;
     cells:{[key:string] : ICell};
     order: string[];
-    cellsContextManager:CellsContextManagerFn;
+    cellsContextManager:ICellsContextManager;
 }
 
 
