@@ -15,6 +15,6 @@ const initialVals: IGeneralContext = {
 }
 
 
-const CellsContext = createContext(initialVals);
+const GeneralContext = createContext(initialVals);
 
-export default CellsContext;
+export default GeneralContext;

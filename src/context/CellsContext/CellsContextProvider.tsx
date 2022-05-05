@@ -1,18 +1,20 @@
 import React, { useState} from "react";
+import {v4 as uuid} from "uuid";
 
 import CellsContext from "./CellsContext";
 import { swap } from "../../helpers";
 
-import { ICell, ICellsContextManager,Direction} from "./cellsContextTypes";
+import { ICell, ICellsContextManager,Direction, IInsertCell} from "./cellsContextTypes";
 
 
 const CellsContextProvider: React.FC = ({children}) => {
     const [cells,setCells] = useState<{[key:string]:ICell}>({})
     const [order,setOrder] = useState<string[]>([])
 
-    function insertCell(cell:ICell){
-        const newCells = {...cells, cell};
-        const orderOfCells = [...order,cell.id];
+    function insertCell(cell:IInsertCell){
+        const id = uuid();
+        const newCells = {...cells,[id]: {...cell,id}};
+        const orderOfCells = [...order,id];
 
         setCells(newCells);
         setOrder(orderOfCells);

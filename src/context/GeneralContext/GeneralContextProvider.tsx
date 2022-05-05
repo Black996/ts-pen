@@ -3,7 +3,7 @@ import React, { useState} from "react";
 import GeneralContext from "./GeneralContext";
 
 
-const CellsContextProvider: React.FC = ({children}) => {
+const GeneralContextProvider: React.FC = ({children}) => {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false);
 
@@ -18,4 +18,4 @@ const CellsContextProvider: React.FC = ({children}) => {
     )
 }
 
-export default CellsContextProvider;
+export default GeneralContextProvider;

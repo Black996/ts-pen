@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ICellsContext, Direction, ICell} from "./cellsContextTypes";
+import { ICellsContext, Direction, IInsertCell} from "./cellsContextTypes";
 
 const initialVals: ICellsContext = {
     // loading:false,
@@ -9,7 +9,7 @@ const initialVals: ICellsContext = {
     cellsContextManager:()=>{
         return {
             moveCell:(id: string, direction:Direction)=>undefined,
-            insertCell:(cell:ICell)=>undefined,
+            insertCell:(cell:IInsertCell)=>undefined,
             updateCell:(id: string, content:string)=>undefined,
             removeCell:(id:string)=>undefined
         }
