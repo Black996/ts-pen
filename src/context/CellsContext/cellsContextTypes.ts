@@ -10,10 +10,10 @@ export interface ICell {
 export type Direction = "up" | "down";
 
 export interface ICellsContextManager {
-    insertCell: (cell:IInsertCell )=>void;
     updateCell: (id: string, content:string)=> void;
     removeCell: (id:string)=> void;
     moveCell:(id:string, direction:Direction)=>void;
+    insertCellAfter:(previousCellId:string | null, cellType:"code" | "markup")=>void;
 }
 
 export interface ICellsContext {
@@ -23,9 +23,6 @@ export interface ICellsContext {
     order: string[];
     cellsContextManager:ICellsContextManager;
 }
-
-
-export interface IInsertCell extends Omit<ICell,"id"> {}
 
 export interface ITInsertCellParams {
     cell: ICell;

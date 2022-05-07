@@ -4,17 +4,26 @@ import {v4 as uuid} from "uuid";
 import CellsContext from "./CellsContext";
 import { swap } from "../../helpers";
 
-import { ICell, ICellsContextManager,Direction, IInsertCell} from "./cellsContextTypes";
+import { ICell, ICellsContextManager,Direction} from "./cellsContextTypes";
 
 
 const CellsContextProvider: React.FC = ({children}) => {
-    const [cells,setCells] = useState<{[key:string]:ICell}>({})
+    const [cells,setCells] = useState<{[id:string]:ICell}>({})
     const [order,setOrder] = useState<string[]>([])
 
-    function insertCell(cell:IInsertCell){
+    function insertCellAfter(previousCellId:string | null, cellType:"code" | "markup"){
         const id = uuid();
-        const newCells = {...cells,[id]: {...cell,id}};
-        const orderOfCells = [...order,id];
+
+        const orderOfCells = [...order];
+        const nextCellIdx = orderOfCells.findIndex((cellId)=> cellId == previousCellId);
+        const newCells = {...cells,[id]: {id, type:cellType,content:""}};
+
+        if(nextCellIdx < 0 || previousCellId == null) {
+            orderOfCells.unshift(id);
+        }else {
+            orderOfCells.splice(nextCellIdx + 1,0,id)
+        }
+
 
         setCells(newCells);
         setOrder(orderOfCells);
@@ -54,13 +63,14 @@ const CellsContextProvider: React.FC = ({children}) => {
         } else if(direction === "down"){
             swap({arr:orderOfCells,leftIndex:orderIndex,rightIndex:targetIndex})
         }
+        setOrder(orderOfCells);
     }
 
     const cellsContextManager:ICellsContextManager = {
             moveCell
-            , insertCell
             , updateCell
             , removeCell
+            , insertCellAfter
         }
 
 
