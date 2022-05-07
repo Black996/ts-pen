@@ -1,23 +1,26 @@
-import { useContext, useEffect } from "react";
-import CellsContext from "../../context/CellsContext/CellsContext";
+import { Fragment } from "react";
 import { useSelectCellsList } from "../../hooks/useSelectCellsList";
+import AddCell from "../AddCell";
 import CellListItem from "../CellListItem";
 
 const CellList: React.FC = () => {
    const cells = useSelectCellsList();
-   const {cellsContextManager} = useContext(CellsContext);
-   
+   console.log("cells are:",cells);
+
+   const cellItemsList = cells.map((cell)=>(
+      <Fragment key={cell.id}>
+         <CellListItem cell={cell}/>
+         <AddCell previousCellId={cell.id}/>
+      </Fragment>
+   ))
+    
    
    if(!cells) return <div>Loading...</div>
 
    return(
       <div>
-         <h1 
-            onClick={()=>cellsContextManager.insertCell({content:"console.log(\"Generated a cell\")", type:"code"})}>
-               Generate A Code Cell
-         </h1>
-         <h1 onClick={()=>cellsContextManager.insertCell({content:"", type:"markup"})}>Generate A Text Cell</h1>
-         {cells.map((cell, idx)=><CellListItem key={idx} cell={cell}/>)}
+         <AddCell forceVisible={cells.length == 0} previousCellId={null} />
+         {cellItemsList}
       </div>
    ) 
 }
