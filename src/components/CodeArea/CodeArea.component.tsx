@@ -1,35 +1,33 @@
 import React, { useContext } from "react";
 import "./CodeArea.styles.css";
-import esBuildBundle from "../../bundler";
 import CodeEditor from "../CodeEditor";
 import Preview from "../Preview";
 import Resizable from "../Resizable";
 import { ICell } from "../../context/CellsContext/cellsContextTypes";
 import CellsContext from "../../context/CellsContext/CellsContext";
+import BundleContext from "../../context/BundleContext/BundleContext";
 
 interface IProps {
   cell: ICell;
 }
 
-const InteractiveCodeEditor: React.FC<IProps> = ({cell}) => {
-  const {cellsContextManager} = useContext(CellsContext);
-  const [code, setCode] = React.useState("");
-  const [error, setError] = React.useState("");
+const InteractiveCodeEditor: React.FC<IProps> = ({ cell }) => {
+  const { cellsContextManager } = useContext(CellsContext);
+  const { state: transpiledObject, onStartCodeTraspile, onCodeTraspilation } = useContext(BundleContext);
+  const bundle = transpiledObject[cell.id];
+
 
   React.useEffect(() => {
     let timerId = setTimeout(async () => {
-      const outputCode = await esBuildBundle(cell.content);
-      if (outputCode) {
-        setCode(outputCode.code);
-        setError(outputCode.error);
-      }
+      onStartCodeTraspile(cell.id, cell.content)
+        .then((res) => onCodeTraspilation(res || { code: "", error: "Something went wrong!" }, cell.id));
     }, 750);
 
     return () => clearTimeout(timerId);
-  }, [cell.content]);
+  }, [cell.id, cell.content]);
 
   function onChange(value: string) {
-    cellsContextManager.updateCell(cell.id,value);
+    cellsContextManager.updateCell(cell.id, value);
   }
 
   return (
@@ -42,7 +40,7 @@ const InteractiveCodeEditor: React.FC<IProps> = ({cell}) => {
             onChange={onChange}
           />
         </Resizable>
-        <Preview code={code} error={error} />
+        {bundle && <Preview code={bundle.code} error={bundle.err} />}
       </div>
     </Resizable>
   );
