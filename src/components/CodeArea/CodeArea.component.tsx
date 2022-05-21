@@ -18,6 +18,11 @@ const InteractiveCodeEditor: React.FC<IProps> = ({ cell }) => {
 
 
   React.useEffect(() => {
+    if (!bundle) {
+      onStartCodeTraspile(cell.id, cell.content)
+        .then((res) => onCodeTraspilation(res || { code: "", error: "Something went wrong!" }, cell.id));
+      return;
+    }
     let timerId = setTimeout(async () => {
       onStartCodeTraspile(cell.id, cell.content)
         .then((res) => onCodeTraspilation(res || { code: "", error: "Something went wrong!" }, cell.id));
