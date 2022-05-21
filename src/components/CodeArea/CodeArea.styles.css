@@ -4,12 +4,31 @@
   flex-direction: row;
 }
 
+.background-blink-wrapper {
+  background-color: white;
+  flex-grow: 1;
+  height: 100%;
+}
+
 .progress-cover {
   height: 100%;
+  width: 100%;
   flex-grow: 1;
-  background-color: white;
   display: flex;
   align-items: center;
   padding-left: 10%;
   padding-right: 10%;
+  animation: fadeIn 0.7s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

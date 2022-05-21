@@ -45,11 +45,13 @@ const InteractiveCodeEditor: React.FC<IProps> = ({ cell }) => {
             onChange={onChange}
           />
         </Resizable>
-        {!bundle || bundle.loading ?
-          (<div className="progress-cover">
-            <progress className="progress is-small is-primary" max="100">Loading</progress>
-          </div>
-          ) : (<Preview code={bundle.code} error={bundle.err} />)}
+        <div className="background-blink-wrapper">
+          {!bundle || bundle.loading ?
+            (<div className="progress-cover">
+              <progress className="progress is-small is-primary" max="100">Loading</progress>
+            </div>
+            ) : (<Preview code={bundle.code} error={bundle.err} />)}
+        </div>
       </div>
     </Resizable>
   );
