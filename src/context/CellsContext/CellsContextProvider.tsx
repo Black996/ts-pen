@@ -3,7 +3,7 @@ import React, { useReducer, useState } from "react";
 import CellsContext from "./CellsContext";
 import { swap } from "../../helpers";
 
-import { ICell, ICellsContextManager, Direction, CellVariant, CellsStoreAction, InsertCellAfterPayload, UpdateCellPayload } from "./cellsContextTypes";
+import { ICell, ICellsContextManager, Direction, CellVariant, CellsStoreAction, InsertCellAfterPayload, UpdateCellPayload, RemoveCellPayload } from "./cellsContextTypes";
 import { CellsStoreActions } from "./actionTypes";
 import cellsReducer from "./CellsReducer";
 
@@ -25,14 +25,8 @@ const CellsContextProvider: React.FC = ({ children }) => {
         dispatch({ type: CellsStoreActions.UpdateCell, payload });
     }
 
-    function removeCell(id: string) {
-        const cellsCopy = { ...cells };
-        const orderOfCells = order.filter((cellId) => cellId !== id)
-
-        delete cellsCopy[id];
-
-        setCells(cellsCopy);
-        setOrder(orderOfCells);
+    function removeCellAction(payload: RemoveCellPayload) {
+        dispatch({ type: CellsStoreActions.RemoveCell, payload });
     }
 
     function moveCell(id: string, direction: Direction) {

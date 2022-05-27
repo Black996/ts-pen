@@ -1,4 +1,4 @@
-import { CellsStoreAction, CellVariant, ICell, InsertCellAfterPayload, UpdateCellPayload } from "./cellsContextTypes";
+import { CellsStoreAction, CellVariant, ICell, InsertCellAfterPayload, RemoveCellPayload, UpdateCellPayload } from "./cellsContextTypes";
 import { v4 as uuid } from "uuid";
 import { CellsStoreActions } from "./actionTypes";
 
@@ -7,10 +7,8 @@ interface ICellsState {
     order: string[]
 }
 
-function insertCellAfter(state: ICellsState, payload: InsertCellAfterPayload) {
-
+function insertCellAfter(state: ICellsState, { cellType, previousCellId }: InsertCellAfterPayload) {
     const id = uuid();
-    const { cellType, previousCellId } = payload;
     const nextCellIdx = state.order.findIndex((cellId) => cellId == previousCellId);
 
     if (nextCellIdx < 0 || previousCellId == null) {
@@ -22,10 +20,24 @@ function insertCellAfter(state: ICellsState, payload: InsertCellAfterPayload) {
     return { cells: { ...state.cells, [id]: { id, content: "", cellType } }, order: state.order };
 }
 
-function updateCell(state: ICellsState, payload: UpdateCellPayload) {
-    const { cellId, content } = payload;
-    if (!cellId) throw new Error("No Such Cell with Provided Id");
+function updateCell(state: ICellsState, { cellId, content }: UpdateCellPayload) {
+    if (!cellId) {
+        console.info("No Such Cell")
+        return state;
+    }
     return { cells: { ...state.cells, [cellId]: { ...state.cells[cellId], content } }, order: state.order }
+}
+
+function removeCell(state: ICellsState, { cellId }: RemoveCellPayload) {
+    if (!cellId) {
+        console.info("No Such Cell");
+        return state;
+    }
+
+    state.order.filter((id) => id !== cellId);
+    delete state.cells[cellId];
+
+    return state;
 }
 
 
@@ -37,6 +49,8 @@ function CellsReducer(state: ICellsState, action: CellsStoreAction): ICellsState
             return insertCellAfter(state, payload);
         case CellsStoreActions.UpdateCell:
             return updateCell(state, payload);
+        case CellsStoreActions.RemoveCell:
+            return removeCell(state, payload);
         default:
             return state;
     }
