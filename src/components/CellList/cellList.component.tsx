@@ -1,6 +1,4 @@
-import { useContext, useEffect } from "react";
 import { Fragment } from "react";
-import CellsContext from "../../context/CellsContext/CellsContext";
 import { useSelectCellsList } from "../../hooks/useSelectCellsList";
 import AddCell from "../AddCell";
 import CellListItem from "../CellListItem";
