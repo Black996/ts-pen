@@ -1,12 +1,15 @@
+import { useContext, useEffect } from "react";
 import { Fragment } from "react";
+import CellsContext from "../../context/CellsContext/CellsContext";
 import { useSelectCellsList } from "../../hooks/useSelectCellsList";
 import AddCell from "../AddCell";
 import CellListItem from "../CellListItem";
 
 const CellList: React.FC = () => {
-   const cells = useSelectCellsList();
+   const orderedCells = useSelectCellsList()
 
-   const cellItemsList = cells.map((cell) => (
+
+   const cellItemsList = orderedCells.map((cell) => (
       <Fragment key={cell.id}>
          <CellListItem cell={cell} />
          <AddCell previousCellId={cell.id} />
@@ -14,11 +17,11 @@ const CellList: React.FC = () => {
    ))
 
 
-   if (!cells) return <div>Loading...</div>
+   if (!orderedCells) return <div>Loading...</div>
 
    return (
       <div>
-         <AddCell forceVisible={cells.length == 0} previousCellId={null} />
+         <AddCell forceVisible={orderedCells.length == 0} previousCellId={null} />
          {cellItemsList}
       </div>
    )

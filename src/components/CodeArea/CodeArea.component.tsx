@@ -12,9 +12,11 @@ interface IProps {
 }
 
 const InteractiveCodeEditor: React.FC<IProps> = ({ cell }) => {
-  const { cellsContextManager } = useContext(CellsContext);
+  const { cellsActionsManager, cellsStore: { cells, order } } = useContext(CellsContext);
   const { state: transpiledObject, onStartCodeTraspile, onCodeTraspilation } = useContext(BundleContext);
   const bundle = transpiledObject[cell.id];
+  // const cumulativeCellsCode = order.map((val) => cells[val]).reduce((prev, curr) => '\n' + curr.content, "");
+  // console.log(cumulativeCellsCode);
 
 
   React.useEffect(() => {
@@ -32,7 +34,7 @@ const InteractiveCodeEditor: React.FC<IProps> = ({ cell }) => {
   }, [cell.id, cell.content]);
 
   function onChange(value: string) {
-    cellsContextManager.updateCell(cell.id, value);
+    cellsActionsManager.updateCellAction({ cellId: cell.id, content: value });
   }
 
   return (
