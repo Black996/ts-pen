@@ -7,16 +7,16 @@ interface IProps {
     cell: ICell;
 }
 
-const CellsListItem: React.FC<IProps> = ({cell}) => {
+const CellsListItem: React.FC<IProps> = ({ cell }) => {
     let child: JSX.Element;
-    
-    if(cell.type == "code"){
-        child = <CodeArea cell={cell}/>;
-    }else {
-        child = <TextEditor cell={cell}/>
+
+    if (cell.cellType == "code") {
+        child = <CodeArea cell={cell} />;
+    } else {
+        child = <TextEditor cell={cell} />
     }
     return <div>
-        <ActionBar id={cell.id}/>
+        <ActionBar id={cell.id} />
         {child}
     </div>;
 }
