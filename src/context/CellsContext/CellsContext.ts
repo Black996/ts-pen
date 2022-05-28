@@ -1,18 +1,11 @@
 import { createContext } from "react";
-import { ICellsContext, Direction} from "./cellsContextTypes";
+import { CellsContextState, ICellsActionManager } from "./cellsContextTypes";
 
-const initialVals: ICellsContext = {
-    // loading:false,
-    // error:false,
-    cells: {},
-    order:[],
-    cellsContextManager:{
-            moveCell:(id: string, direction:Direction)=>undefined,
-            updateCell:(id: string, content:string)=>undefined,
-            removeCell:(id:string)=>undefined,
-            insertCellAfter:(previousCellId:string | null, cellType:"code" | "markup")=>undefined
-        }
-    }
+const initialVals = {
+    cellsStore: { cells: {}, order: [] } as CellsContextState,
+    cellsActionsManager: {} as ICellsActionManager
+
+}
 
 
 const CellsContext = createContext(initialVals);

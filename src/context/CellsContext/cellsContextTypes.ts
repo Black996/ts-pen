@@ -41,39 +41,9 @@ export interface ICell {
 
 export type Direction = "up" | "down";
 
-export interface ICellsContextManager {
-    updateCell: (id: string, content: string) => void;
-    removeCell: (id: string) => void;
-    moveCell: (id: string, direction: Direction) => void;
-    insertCellAfter: (previousCellId: string | null, cellType: CellVariant) => void;
-}
-
-export interface ICellsContext {
-    // loading: boolean;
-    // error:boolean;
-    cells: { [key: string]: ICell };
-    order: string[];
-    cellsContextManager: ICellsContextManager;
-}
-
-export interface ITInsertCellParams {
-    cell: ICell;
-    state: CellsContextState;
-}
-
-export interface ITUpdateCellParams {
-    id: string;
-    content: string;
-    state: CellsContextState;
-}
-
-export interface ITMoveCellParams {
-    id: string;
-    direction: Direction;
-    state: CellsContextState;
-}
-
-export interface ITRemoveCellParams {
-    id: string;
-    state: CellsContextState;
+export interface ICellsActionManager {
+    updateCellAction: (payload: UpdateCellPayload) => void;
+    removeCellAction: (payload: RemoveCellPayload) => void;
+    moveCellAction: (payload: MoveCellPayload) => void;
+    insertCellAfterAction: (payload: InsertCellAfterPayload) => void;
 }
