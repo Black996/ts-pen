@@ -6,32 +6,37 @@ import Resizable from "../Resizable";
 import { ICell } from "../../context/CellsContext/cellsContextTypes";
 import CellsContext from "../../context/CellsContext/CellsContext";
 import BundleContext from "../../context/BundleContext/BundleContext";
+import { useSelectOrderedCellsList } from "../../hooks/useSelectCellsList";
 
 interface IProps {
   cell: ICell;
 }
 
 const InteractiveCodeEditor: React.FC<IProps> = ({ cell }) => {
-  const { cellsActionsManager, cellsStore: { cells, order } } = useContext(CellsContext);
+  const { cellsActionsManager } = useContext(CellsContext);
   const { state: transpiledObject, onStartCodeTraspile, onCodeTraspilation } = useContext(BundleContext);
   const bundle = transpiledObject[cell.id];
-  // const cumulativeCellsCode = order.map((val) => cells[val]).reduce((prev, curr) => '\n' + curr.content, "");
-  // console.log(cumulativeCellsCode);
+
+  const cumulativeCellsCode = [
+    `function show(value){document.querySelector("#root").innerHTML=value}`
+    , ...useSelectOrderedCellsList({ cellType: "code", breakPoint: cell.id }).map((cell) => cell.content)
+  ]
+  const stringifiedCumulativeCode = cumulativeCellsCode.join("\n");
 
 
   React.useEffect(() => {
     if (!bundle) {
-      onStartCodeTraspile(cell.id, cell.content)
+      onStartCodeTraspile(cell.id, stringifiedCumulativeCode)
         .then((res) => onCodeTraspilation(res || { code: "", error: "Something went wrong!" }, cell.id));
       return;
     }
     let timerId = setTimeout(async () => {
-      onStartCodeTraspile(cell.id, cell.content)
+      onStartCodeTraspile(cell.id, stringifiedCumulativeCode)
         .then((res) => onCodeTraspilation(res || { code: "", error: "Something went wrong!" }, cell.id));
     }, 750);
 
     return () => clearTimeout(timerId);
-  }, [cell.id, cell.content]);
+  }, [cell.id, stringifiedCumulativeCode]);
 
   function onChange(value: string) {
     cellsActionsManager.updateCellAction({ cellId: cell.id, content: value });
