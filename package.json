@@ -1,62 +1,7 @@
 {
-  "name": "jbook",
-  "version": "0.1.0",
+  "name": "root",
   "private": true,
-  "dependencies": {
-    "@monaco-editor/react": "3.7.5",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^16.7.13",
-    "@types/prettier": "^2.4.4",
-    "@types/react": "^17.0.20",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-resizable": "^1.7.4",
-    "@uiw/react-md-editor": "^3.11.3",
-    "axios": "^0.24.0",
-    "bulmaswatch": "^0.8.1",
-    "esbuild-wasm": "0.8.27",
-    "localforage": "^1.10.0",
-    "monaco-editor": "^0.33.0",
-    "prettier": "^2.6.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-resizable": "^3.0.4",
-    "react-scripts": "5.0.0",
-    "ts-jest": "^27.1.4",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.4.2",
-    "uuid": "^8.3.2",
-    "web-vitals": "^2.1.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test-react": "react-scripts test",
-    "test": "jest",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
-    "@types/uuid": "^8.3.4",
-    "jest": "^27.5.1"
+    "lerna": "^3.22.1"
   }
 }
