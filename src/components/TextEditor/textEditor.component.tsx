@@ -26,7 +26,6 @@ const TextEditor: React.FC<IProps> = ({ cell }) => {
     return () => window.removeEventListener("click", listener, { capture: true });
   })
 
-  console.log(editIsActive);
 
   if (editIsActive) return (
     <div className="text-editor" ref={textEditorDivRef}>

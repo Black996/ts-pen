@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import { useSelectCellsList } from "../../hooks/useSelectCellsList";
+import { useSelectOrderedCellsList } from "../../hooks/useSelectCellsList";
 import AddCell from "../AddCell";
 import CellListItem from "../CellListItem";
 
 const CellList: React.FC = () => {
-   const orderedCells = useSelectCellsList()
+   const orderedCells = useSelectOrderedCellsList()
 
 
    const cellItemsList = orderedCells.map((cell) => (
