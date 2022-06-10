@@ -1,0 +1,8 @@
+packages/cli/node_modules
+packages/cli/package-lock.json
+
+packages/local-api/node_modules
+packages/local-api/package-lock.json
+
+packages/local-client/node_modules
+packages/local-client/package-lock.json
