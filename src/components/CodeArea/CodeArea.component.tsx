@@ -6,7 +6,7 @@ import Resizable from "../Resizable";
 import { ICell } from "../../context/CellsContext/cellsContextTypes";
 import CellsContext from "../../context/CellsContext/CellsContext";
 import BundleContext from "../../context/BundleContext/BundleContext";
-import { useSelectOrderedCellsList } from "../../hooks/useSelectCellsList";
+import { useGetCumulativeCode } from "./hooks";
 
 interface IProps {
   cell: ICell;
@@ -16,31 +16,7 @@ const InteractiveCodeEditor: React.FC<IProps> = ({ cell }) => {
   const { cellsActionsManager } = useContext(CellsContext);
   const { state: transpiledObject, onStartCodeTraspile, onCodeTraspilation } = useContext(BundleContext);
   const bundle = transpiledObject[cell.id];
-
-  function getShowHelperFn() {
-    return `
-    import _React from "react";
-    import _ReactDOM from "react-dom";
-
-    function show(value){
-      const root = document.querySelector("#root");
-
-      const isObject = typeof value == "object" && value !== null;
-      const isReactElement = isObject && (value.$$typeof && value.props);
-      
-      if(isObject){
-        if(isReactElement) return _ReactDOM.render(value,root);
-        root.innerHTML = JSON.stringify(value);
-      } else root.innerHTML=value;
-    }`
-  }
-
-  const cumulativeCellsCode = [
-    getShowHelperFn()
-    , ...useSelectOrderedCellsList({ cellType: "code", breakPoint: cell.id }).map((cell) => cell.content)
-  ]
-  const stringifiedCumulativeCode = cumulativeCellsCode.join("\n");
-
+  const stringifiedCumulativeCode = useGetCumulativeCode(cell);
 
   React.useEffect(() => {
     if (!bundle) {
