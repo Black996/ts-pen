@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import cors from "cors";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { getCellsRouter } from "./routes"
 
@@ -12,6 +13,7 @@ interface IServeParams {
 
 function serve({ port, filename, directory, useProxy }: IServeParams) {
     const app = express();
+    cors();
     app.use(getCellsRouter(directory, filename));
 
     if (useProxy) {
