@@ -25,12 +25,12 @@ export function getCellsRouter(directory: string, filename: string) {
         try {
             const cellsFile = await fs.readFile(cellsFilePath, "utf-8");
             console.log("I am here");
-            return res.send(JSON.stringify(cellsFile)).status(200);
+            return res.send(cellsFile).status(200);
         } catch (err) {
             const errCode = getErrorCode(err as ErrorWithCode);
             if (errCode == "ENOENT") {
                 await fs.writeFile(cellsFilePath, "[]", "utf-8")
-                return res.send("[]").status(201);
+                return res.send([]).status(201);
             } else {
                 throw err;
             }
