@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { CellsContextState, ICellsActionManager } from "./cellsContextTypes";
 
 const initialVals = {
-    cellsStore: { cells: {}, order: [] } as CellsContextState,
+    cellsStore: { cells: {}, order: [], loading: false, error: "" } as CellsContextState,
     cellsActionsManager: {} as ICellsActionManager
 
 }

@@ -2,5 +2,8 @@ export enum CellsStoreActions {
     InsertCellAfter,
     MoveCell,
     RemoveCell,
-    UpdateCell
+    UpdateCell,
+    StartCellsFetching,
+    ErrorCellsFetching,
+    FinishCellsFetching
 }

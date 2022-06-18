@@ -1,11 +1,13 @@
-import { CellsStoreAction, ICell, InsertCellAfterPayload, MoveCellPayload, RemoveCellPayload, UpdateCellPayload } from "./cellsContextTypes";
+import { CellsStoreAction, ICell, InsertCellAfterPayload, MoveCellPayload, PresistFetchedCellsPayload, RemoveCellPayload, UpdateCellPayload } from "./cellsContextTypes";
 import { v4 as uuid } from "uuid";
 import { CellsStoreActions } from "./actionTypes";
 import { swap } from "../../helpers";
 
 interface ICellsState {
     cells: { [id: string]: ICell };
-    order: string[]
+    order: string[];
+    loading: boolean;
+    error: string;
 }
 
 function insertCellAfter(state: ICellsState, { cellType, previousCellId }: InsertCellAfterPayload) {
@@ -18,7 +20,7 @@ function insertCellAfter(state: ICellsState, { cellType, previousCellId }: Inser
         state.order.splice(nextCellIdx + 1, 0, id)
     }
 
-    return { cells: { ...state.cells, [id]: { id, content: "", cellType } }, order: state.order };
+    return { cells: { ...state.cells, [id]: { id, content: "", cellType } }, order: state.order, loading: state.loading, error: state.error };
 }
 
 function updateCell(state: ICellsState, { cellId, content }: UpdateCellPayload) {
@@ -26,7 +28,7 @@ function updateCell(state: ICellsState, { cellId, content }: UpdateCellPayload) 
         console.info("No Such Cell")
         return state;
     }
-    return { cells: { ...state.cells, [cellId]: { ...state.cells[cellId], content } }, order: state.order };
+    return { cells: { ...state.cells, [cellId]: { ...state.cells[cellId], content } }, order: state.order, loading: state.loading, error: state.error };
 }
 
 function removeCell(state: ICellsState, { cellId }: RemoveCellPayload) {
@@ -77,24 +79,40 @@ function moveCell(state: ICellsState, { cellId, direction }: MoveCellPayload) {
     return state;
 }
 
+function presistCellsFetching(state: ICellsState, { cells }: PresistFetchedCellsPayload) {
+    console.log("cells are:", cells)
+    const order = cells.map((cell) => cell.id);
+    const cellsObject = cells.reduce((acc, cell) => {
+        acc[cell.id] = cell;
+        return acc;
+    }, {} as { [id: string]: ICell })
+
+    return { cells: cellsObject, order, loading: false, error: "" }
+}
+
 function CellsReducer(state: ICellsState, action: CellsStoreAction): ICellsState {
-    const { type, payload } = action;
 
     /*  creating a new copy cuz mutating the original object would break the app 
         To reproduce the bug use the original state instead of the copy.
         Note that Deep Copying is needed and shallow copying is not enough
     */
 
-    const stateCopy = { cells: { ...state.cells }, order: [...state.order] };
-    switch (type) {
+    const stateCopy = { cells: { ...state.cells }, order: [...state.order], loading: false, error: "" };
+    switch (action.type) {
         case CellsStoreActions.InsertCellAfter:
-            return insertCellAfter(stateCopy, payload as InsertCellAfterPayload);
+            return insertCellAfter(stateCopy, action.payload as InsertCellAfterPayload);
         case CellsStoreActions.UpdateCell:
-            return updateCell(stateCopy, payload as UpdateCellPayload);
+            return updateCell(stateCopy, action.payload as UpdateCellPayload);
         case CellsStoreActions.RemoveCell:
-            return removeCell(stateCopy, payload as RemoveCellPayload);
+            return removeCell(stateCopy, action.payload as RemoveCellPayload);
         case CellsStoreActions.MoveCell:
-            return moveCell(stateCopy, payload as MoveCellPayload);
+            return moveCell(stateCopy, action.payload as MoveCellPayload);
+        case CellsStoreActions.StartCellsFetching:
+            return { ...stateCopy, loading: true };
+        case CellsStoreActions.FinishCellsFetching:
+            return presistCellsFetching(stateCopy, action.payload as PresistFetchedCellsPayload);
+        case CellsStoreActions.ErrorCellsFetching:
+            return { ...stateCopy, loading: false, error: action.payload.error }
         default:
             return state;
     }
