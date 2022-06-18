@@ -1,0 +1,1 @@
+export { getCellsRouter } from "./cellsRoutes";
